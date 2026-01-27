@@ -5,7 +5,7 @@ app = FastAPI()
 
 @app.get("/")
 def root():
-    return {"message": "Smart irrigation API running", "ts": int(time.time())}
+    return {"message": "Smart irrigation API", "ts": int(time.time())}
 
 @app.get("/health")
 def health():
