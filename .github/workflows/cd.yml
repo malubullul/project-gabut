@@ -20,7 +20,15 @@ jobs:
             set -e
             cd ~/devops-foundation-project
             git pull
-            docker build -t irrigation-api:latest .
+
+            SHA=${{ github.sha }}
+            echo "Deploying commit: $SHA"
+
+            docker build -t irrigation-api:$SHA .
+            docker tag irrigation-api:$SHA irrigation-api:current
+
             docker rm -f irrigation-api || true
-            docker run -d --name irrigation-api --restart unless-stopped -p 8000:8000 irrigation-api:latest
+            docker run -d --name irrigation-api --restart unless-stopped -p 8000:8000 irrigation-api:current
+
             docker ps
+            docker image ls | grep irrigation-api | head -n 10
